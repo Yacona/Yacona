@@ -1,7 +1,13 @@
+const yaml    = require( './yaml' )
+const utility = require( './utility' )
+
 class App {
 
-	constructor(){
-		console.log( 'App class' )
+	constructor( directory ){
+		this.directory = directory
+		this.package   = utility.getAbsolutePath( directory, 'yacona-package.json' )
 	}
 
 }
+
+module.exports = App

@@ -1,0 +1,10 @@
+{
+  "name": "yacona-app-launcher",
+  "version": "0.0.1",
+  "main": "index",
+  "author": "calmery <contact@calmery.me>",
+  "license": "MIT",
+  "dependencies": {
+    "js-yaml": "^3.8.4"
+  }
+}
