@@ -12,7 +12,12 @@ const isExist = filePath => {
   }
 }
 
+const read  = filePath => fs.readFileSync( filePath, 'utf-8' )
+const write = ( filePath, content ) => fs.writeFileSync( filePath, content )
+
 module.exports = {
   getAbsolutePath: getAbsolutePath,
-  isExist        : isExist
+  isExist        : isExist,
+  read           : read,
+  write          : write
 }
