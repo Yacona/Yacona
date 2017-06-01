@@ -1,5 +1,8 @@
 const yaml    = require( './yaml' )
 const utility = require( './utility' )
+const Controller = require( './yacona' )
+
+const generateAppId = () => Math.random().toString( 36 ).slice( -8 )
 
 class App {
 
@@ -8,6 +11,7 @@ class App {
 			directory = './'
 
 		this.directory = directory
+		this.id = generateAppId()
 
 		let packageJson = utility.getAbsolutePath( directory, 'yacona-package.json' )
 		this.package = utility.isExist( packageJson )
@@ -15,6 +19,7 @@ class App {
 			: {}
 
 		this.name = this.package.name !== undefined ? this.package.name : ''
+		this.controller = new Controller( this.name )
 		this.app = null
 		this.isRunning = false
 
@@ -28,7 +33,7 @@ class App {
 		this.isRunning = true
 		this.app = require( utility.getAbsolutePath( this.directory, this.package.main ) )
 		if( this.app !== null && this.app.launch )
-			this.app.launch()
+			this.app.launch( this.controller )
 		return true
 	}
 
