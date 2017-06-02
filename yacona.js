@@ -6,6 +6,8 @@ const utility = require( './utility' )
 const getDocumentPath = () => electron.app.getPath( 'documents' )
 const getDataPath     = () => electron.app.getPath( 'appData' )
 
+let events = {}
+
 const document = {}
 const appData  = {}
 
@@ -56,6 +58,25 @@ class Controller {
       save: ( filePath, content ) => appData.save( this.name, filePath, content ),
       load: filePath => appData.load( this.name, filePath )
     }
+  }
+
+  on( name, func ){
+    if( events[this.name] === undefined )
+      events[this.name] = {}
+    events[this.name][name] = func
+  }
+
+  emit( target, args ){
+    console.log( 'events' )
+    console.log( events )
+    let options = target
+    if( typeof target === 'string' ){
+      options = {}
+      target = target.split( '/' )
+      options.app = target[0]
+      options.event = target.splice( 1 ).join( '/' )
+    }
+    return events[options.app][options.event].apply( null, args )
   }
 
 }
