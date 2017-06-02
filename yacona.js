@@ -66,9 +66,7 @@ class Controller {
     events[this.name][name] = func
   }
 
-  emit( target, args ){
-    console.log( 'events' )
-    console.log( events )
+  emit( target, ...args ){
     let options = target
     if( typeof target === 'string' ){
       options = {}
