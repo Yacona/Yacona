@@ -1,6 +1,6 @@
 const yaml    = require( './yaml' )
 const utility = require( './utility' )
-const Controller = require( './yacona' )
+const Controller = require( './controller' )
 
 const generateAppId = () => Math.random().toString( 36 ).slice( -8 )
 
