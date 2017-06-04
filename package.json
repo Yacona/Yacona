@@ -5,6 +5,9 @@
   "author": "calmery <contact@calmery.me>",
   "license": "MIT",
   "dependencies": {
-    "js-yaml": "^3.8.4"
+    "express": "^4.15.3",
+    "js-yaml": "^3.8.4",
+    "socket.io": "^2.0.2",
+    "socketio-wildcard": "^2.0.0"
   }
 }
