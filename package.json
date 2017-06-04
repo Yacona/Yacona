@@ -5,6 +5,7 @@
   "author": "calmery <contact@calmery.me>",
   "license": "MIT",
   "dependencies": {
+    "electron": "^1.6.10",
     "express": "^4.15.3",
     "js-yaml": "^3.8.4",
     "socket.io": "^2.0.2",
