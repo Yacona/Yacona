@@ -30,6 +30,28 @@ const removeRoute = ( app, path ) => {
   }
 }
 
+// Download
+const url  = require( 'url' )
+const download = ( from, to ) => {
+  return new Promise( ( resolve, reject ) => {
+    let filename = url.parse( from ).pathname
+
+    http.get( from, response => {
+      if( response.statusCode < 200 || 299 < response.statusCode )
+        reject( response )
+      else {
+        let output = fs.createWriteStream( path.resolve( to, path.basename( filename ) ) )
+        output.on( 'error', reject )
+        response.pipe( output )
+        response.on( 'end', e => {
+          output.close()
+          resolve( path.basename( filename ) )
+        } )
+      }
+    } ).on( 'error', reject )
+  } )
+}
+
 // Use documents or appData path created by electron when we use electron command.
 // Use the current directory path when we use node command.
 // node
