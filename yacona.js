@@ -118,6 +118,8 @@ const createServer = port => {
   return server
 }
 
+const App = require( './app' )
+
 class Yacona {
 
   constructor(){
@@ -136,6 +138,8 @@ class Yacona {
 
     this.currentDirectory = __dirname
     this.prefix = null
+
+    this.apps = {}
   }
 
   prefix( prefix ){
@@ -204,6 +208,14 @@ class Yacona {
       return false
     delete this.modules[name]
     return true
+  }
+
+  app( directory ){
+    let app = new App( directory )
+    if( this.apps[app.name] === undefined )
+      this.apps[app.name] = []
+    this.apps[app.name].push( app )
+    return app
   }
 
 }
