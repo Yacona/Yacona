@@ -103,3 +103,6 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+# yacona/node_modules
+yacona/node_modules

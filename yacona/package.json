@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "electron": "^1.6.11",
+    "express": "^4.15.3",
+    "socket.io": "^2.0.3",
+    "socketio-wildcard": "^2.0.0"
+  }
+}
