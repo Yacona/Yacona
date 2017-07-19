@@ -2,7 +2,7 @@
 
 const express = require( 'express' )
 
-const moduleLoader = require( '../moduleLoader' )
+const moduleLoader = require( '../support/moduleLoader' )
 
 const utility = moduleLoader( 'utility' )
 

@@ -1,6 +1,6 @@
 // --- Modules --- //
 
-const moduleLoader = require( '../moduleLoader' )
+const moduleLoader = require( '../support/moduleLoader' )
 
 const utility = moduleLoader( 'utility' )
 
