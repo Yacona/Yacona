@@ -42,13 +42,12 @@ class GUI {
     const self = store.get( this )
 
     return new Promise( ( resolve, reject ) => {
-
       if( self.electron === null )
         reject( null )
 
       const BrowserWindow = self.electron.BrowserWindow
 
-      self.app.on( 'ready', () => {
+      const create = () => {
         options.show = false
         let main = new BrowserWindow( options )
         main.prefix = self.prefix
@@ -59,8 +58,28 @@ class GUI {
 
         debug( 'Create new window' )
         resolve( main )
-      } )
+      }
+
+      if( self.app.isReady() === true )
+        create()
+      else
+        self.app.on( 'ready', create )
     } )
+  }
+
+  destroyWindow( appId ){
+    const self = store.get( this )
+
+    let index
+    for( let i=0; i<self.all.length; i++ ){
+      if( self.all[i].app.getId() === appId ){
+        self.all[i].close()
+        debug( 'Destory ' + self.all[i].app.getName() + '\'s (' + appId + ') window' )
+        self.all.splice( i, 1 )
+        i--
+        continue
+      }
+    }
   }
 
   getAllWindow(){

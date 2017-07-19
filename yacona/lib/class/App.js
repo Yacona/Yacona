@@ -85,17 +85,42 @@ class App {
 		self.instance   = require( utility.absPath( self.chdir, self.package.main ) )
     self.controller = new Controller( this )
 
-		if( self.instance !== null && self.instance.launch )
+		if( self.instance !== null && self.instance.launch ){
 			self.instance.launch( self.controller )
+    }
 
 		return self.controller
   }
 
   close(){
-		if( self.isRunning ){
-			if( self.instance !== null && self.instance.close )
-				self.instance.close()
+    const self = store.get( this )
+
+		if( self.isRunning === true ){
 			self.isRunning = false
+
+      // Express
+
+      self.routes.get.forEach( route => this.removeGet( route ) )
+      self.routes.post.forEach( route => this.removePost( route ) )
+      self.routes.put.forEach( route => this.removePut( route ) )
+      self.routes.delete.forEach( route => this.removeDelete( route ) )
+
+      // Socket.io
+
+      self.sockets.forEach( socket => this.removeSocket( socket ) )
+
+      // Electron
+      // GUI Class
+
+      store.get( this ).yacona.destroyWindow( this.getId() )
+
+      self.windows = []
+
+      // Close
+
+      self.instance   = undefined
+      self.controller = undefined
+
 			return true
 		}
 
@@ -112,21 +137,18 @@ class App {
   // --- Socket --- //
 
   addSocket( name, callback ){
-    name = this.getName() + '/' + name
     store.get( this ).sockets.push( name )
-    return store.get( this ).yacona.addSocket( name, callback )
+    return store.get( this ).yacona.addSocket( this.getName() + '/' + name, callback )
   }
 
   removeSocket( name ){
-    name = this.getName() + '/' + name
-
     const self = store.get( this )
 
     let index = self.sockets.indexOf( name )
     if( index !== -1 )
       self.sockets.splice( index, 1 )
 
-    return store.get( this ).yacona.removeSocket( name )
+    return store.get( this ).yacona.removeSocket( this.getName() + '/' + name )
   }
 
   // --- Documents --- //
@@ -150,75 +172,75 @@ class App {
   // --- Express --- //
 
   get( ...args ){
+    let route = args[0]
     args[0] = '/' + this.getName() + args[0]
     const self = store.get( this )
-    self.routes.get.push( args[0] )
+    self.routes.get.push( route )
     return self.yacona.get.apply( self.yacona, args )
   }
 
   post( ...args ){
+    let route = args[0]
     args[0] = '/' + this.getName() + args[0]
     const self = store.get( this )
-    self.routes.post.push( args[0] )
+    self.routes.post.push( route )
     return self.yacona.post.apply( self.yacona, args )
   }
 
   put( ...args ){
+    let route = args[0]
     args[0] = '/' + this.getName() + args[0]
     const self = store.get( this )
-    self.routes.put.push( args[0] )
+    self.routes.put.push( route )
     return self.yacona.put.apply( self.yacona, args )
   }
 
   delete( ...args ){
+    let route = args[0]
     args[0] = '/' + this.getName() + args[0]
     const self = store.get( this )
-    self.routes.delete.push( args[0] )
+    self.routes.delete.push( route )
     return self.yacona.delete.apply( self.yacona, args )
   }
 
   removeGet( route ){
-    route = '/' + this.getName() + route
     const self = store.get( this )
 
     let index = self.routes.get.indexOf( route )
     if( index !== -1 )
       self.routes.get.splice( index, 1 )
 
-    return self.yacona.removeGet( route )
+    return self.yacona.removeGet( '/' + this.getName() + route )
   }
 
   removePost( route ){
-    route = '/' + this.getName() + route
     const self = store.get( this )
 
     let index = self.routes.post.indexOf( route )
     if( index !== -1 )
       self.routes.post.splice( index, 1 )
 
-    return self.yacona.removePost( route )
+    return self.yacona.removePost( '/' + this.getName() + route )
   }
 
   removePut( route ){
-    route = '/' + this.getName() + route
     const self = store.get( this )
 
     let index = self.routes.put.indexOf( route )
     if( index !== -1 )
       self.routes.put.splice( index, 1 )
 
-    return self.yacona.removePut( route )
+    return self.yacona.removePut( '/' + this.getName() + route )
   }
 
   removeDelete( route ){
-    route = '/' + this.getName() + route
     const self = store.get( this )
 
     let index = self.routes.delete.indexOf( route )
     if( index !== -1 )
       self.routes.delete.splice( index, 1 )
 
-    return self.yacona.removeDelete( route )
+    return self.yacona.removeDelete( '/' + this.getName() + route )
   }
 
   getPort(){

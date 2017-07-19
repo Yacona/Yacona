@@ -261,22 +261,30 @@ class Yacona {
     let app  = new App( this, place )
     let name = app.getName()
 
-    if( self.apps[name] === undefined )
-      self.apps[name] = []
+    if( self.apps[name] !== undefined ){
+      app = undefined
+      return false
+    }
 
-    self.apps[name].push( app )
+    self.apps[name] = app
 
     return app
   }
 
-  detachApp(){
+  detachApp( appName ){
+    const self = store.get( this ).apps
 
+    const app = self.apps[appName]
   }
 
   // --- Electron --- //
 
   createWindow( options ){
     return store.get( this ).gui.createWindow( options )
+  }
+
+  destroyWindow( appId ){
+    return store.get( this ).gui.destroyWindow( appId )
   }
 
   // --- Static --- //
