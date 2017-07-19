@@ -32,6 +32,10 @@ class Controller {
     return store.get( this ).app.createWindow( options )
   }
 
+  destroyWindow( window ){
+    return store.get( this ).app.destroyWindow( window )
+  }
+
   saveDocument( filePath, content ){
     const self = store.get( this )
     return self.app.saveDocument( filePath, content )

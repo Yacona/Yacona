@@ -9,7 +9,9 @@ module.exports.launch = controller => {
   controller.createWindow().then( window => {
     window.openDevTools()
   } )
+
   controller.createWindow().then( window => {
-    window.openDevTools()
+    console.log( 'Windows get' )
+    controller.destroyWindow( window )
   } )
 }

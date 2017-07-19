@@ -10,6 +10,8 @@ const debug = message => {
   return utility.debug( 'green', 'gui', message )
 }
 
+const generateWindowId = () => Math.random().toString( 36 ).slice( -8 )
+
 // --- Store : Declare private member and method --- //
 
 const store = new WeakMap()
@@ -51,12 +53,13 @@ class GUI {
         options.show = false
         let main = new BrowserWindow( options )
         main.prefix = self.prefix
+        main.original_id = generateWindowId()
 
         main.once( 'ready-to-show', () => main.show() )
 
         self.all.push( main )
 
-        debug( 'Create new window' )
+        debug( 'Create new window (' + main.original_id + ')' )
         resolve( main )
       }
 
@@ -70,14 +73,28 @@ class GUI {
   destroyWindow( appId ){
     const self = store.get( this )
 
-    let index
-    for( let i=0; i<self.all.length; i++ ){
-      if( self.all[i].app.getId() === appId ){
-        self.all[i].close()
-        debug( 'Destory ' + self.all[i].app.getName() + '\'s (' + appId + ') window' )
-        self.all.splice( i, 1 )
-        i--
-        continue
+    if( typeof appId === 'string' ){
+      let index
+      for( let i=0; i<self.all.length; i++ ){
+        if( self.all[i].app.getId() === appId ){
+          self.all[i].close()
+          debug( 'Destory ' + self.all[i].app.getName() + '\'s (' + self.all[i].original_id + ':' + appId + ') window' )
+          self.all.splice( i, 1 )
+          i--
+          continue
+        }
+      }
+    } else if( appId instanceof self.electron.BrowserWindow ){
+      let original_id = appId.original_id
+
+      for( let i=0; i<self.all.length; i++ ){
+        if( self.all[i].original_id === original_id ){
+          self.all[i].close()
+          debug( 'Destory ' + self.all[i].app.getName() + '\'s (' + self.all[i].original_id + ':' + appId.app.getId() + ') window' )
+          self.all.splice( i, 1 )
+          i--
+          break
+        }
       }
     }
   }

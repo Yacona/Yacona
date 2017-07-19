@@ -295,6 +295,8 @@ class Yacona {
     return store.get( this ).gui.createWindow( options )
   }
 
+  // appId => String
+  // appId => Object ( Instance of BrowserWindow )
   destroyWindow( appId ){
     return store.get( this ).gui.destroyWindow( appId )
   }

@@ -265,6 +265,10 @@ class App {
     } )
   }
 
+  destroyWindow( window ){
+    return store.get( this ).yacona.destroyWindow( window )
+  }
+
 }
 
 module.exports.App = App
