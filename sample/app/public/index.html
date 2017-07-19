@@ -1,0 +1,14 @@
+<script src="/socket.io/socket.io.js"></script>
+<script>
+
+  let socket = io()
+
+  socket.emit( 'message', {
+    value: 'Hey!!!'
+  } )
+
+  socket.on( 'message', message => alert( 'From WebSocket', message ) )
+
+</script>
+
+Hello From Yacona !
