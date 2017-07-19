@@ -13,10 +13,11 @@ const app2 = yacona.attachApp( './app2' )
 app.launch()
 app2.launch()
 
-setTimeout( () => {
-  app.close()
+console.log( yacona.getApps() )
+
+setTimeout( function(){
+  yacona.detachApp( app )
   setTimeout( () => {
-    console.log( 'launch' )
-    app.launch()
-  }, 2000 )
+    console.log( yacona.getApps() )
+  } )
 }, 3000 )

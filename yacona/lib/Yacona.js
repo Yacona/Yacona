@@ -272,9 +272,21 @@ class Yacona {
   }
 
   detachApp( appName ){
-    const self = store.get( this ).apps
+    const self = store.get( this )
+    let app
 
-    const app = self.apps[appName]
+    if( typeof appName === 'string' )
+      app = self.apps[appName]
+    else if( typeof appName === 'object' && appName instanceof App )
+      app = appName // App Instance Object
+
+    appName = app.getName()
+
+    app.close()
+
+    delete self.apps[appName]
+
+    return true
   }
 
   // --- Electron --- //

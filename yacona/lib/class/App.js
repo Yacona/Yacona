@@ -124,11 +124,6 @@ class App {
 			return true
 		}
 
-    // ここで electron と express，socket.io の kill を行う必要がある
-    // また Yacona 側の self.apps からの参照を delete する
-
-    // そのためにはメソッドを経由して登録したものを補足しておく必要がある
-
 		return false
 	}
 
