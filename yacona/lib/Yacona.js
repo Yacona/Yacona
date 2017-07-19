@@ -4,10 +4,10 @@ const moduleLoader = require( './moduleLoader' )
 
 const utility = moduleLoader( 'utility' )
 
-const Server  = require( './Server' ).Server
-const App     = require( './App' ).App
-const GUI     = require( './GUI' ).GUI
-const Storage = require( './Storage' ).Storage
+const Server  = require( './class/Server' ).Server
+const App     = require( './class/App' ).App
+const GUI     = require( './class/GUI' ).GUI
+const Storage = require( './class/Storage' ).Storage
 
 // --- Functions --- //
 

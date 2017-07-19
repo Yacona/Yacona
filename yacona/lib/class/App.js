@@ -2,7 +2,7 @@
 
 const Controller = require( './Controller' ).Controller
 
-const moduleLoader = require( './moduleLoader' )
+const moduleLoader = require( '../moduleLoader' )
 
 const utility = moduleLoader( 'utility' )
 const file    = moduleLoader( 'file' )

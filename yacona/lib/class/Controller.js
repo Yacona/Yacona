@@ -2,7 +2,7 @@
 
 const url     = require( 'url' )
 
-const moduleLoader = require( './moduleLoader' )
+const moduleLoader = require( '../moduleLoader' )
 
 const utility = moduleLoader( 'utility' )
 
