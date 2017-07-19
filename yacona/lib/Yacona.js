@@ -1,6 +1,8 @@
 // --- Modules --- //
 
-const utility = require( './utility' )
+const moduleLoader = require( './moduleLoader' )
+
+const utility = moduleLoader( 'utility' )
 
 const Server  = require( './Server' ).Server
 const App     = require( './App' ).App
@@ -112,7 +114,7 @@ class Yacona {
   loadModule( name ){
     const self = store.get( this )
     if( name === undefined || self.modules[name] === undefined )
-      return {}
+      return moduleLoader( name )
     return require( self.modules[name] )
   }
 
@@ -275,6 +277,12 @@ class Yacona {
 
   createWindow( options ){
     return store.get( this ).gui.createWindow( options )
+  }
+
+  // --- Static --- //
+
+  static loadModule( name ){
+    return moduleLoader( name )
   }
 
 }

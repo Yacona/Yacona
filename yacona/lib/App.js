@@ -2,7 +2,10 @@
 
 const Controller = require( './Controller' ).Controller
 
-const utility = require( './utility' )
+const moduleLoader = require( './moduleLoader' )
+
+const utility = moduleLoader( 'utility' )
+const file    = moduleLoader( 'file' )
 
 // --- Functions --- //
 
@@ -23,7 +26,7 @@ class App {
   constructor( yacona, chdir ){
     const src = utility.absPath( chdir, 'package.json' )
 		const packageJson = utility.exists( src )
-			? JSON.parse( utility.read( src ).result )
+			? JSON.parse( file.read( src ).result )
 			: {}
 
     if( packageJson.main === undefined )

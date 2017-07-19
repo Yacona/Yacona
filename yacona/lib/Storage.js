@@ -1,4 +1,7 @@
-const utility = require( './utility' )
+const moduleLoader = require( './moduleLoader' )
+
+const utility = moduleLoader( 'utility' )
+const file    = moduleLoader( 'file' )
 
 // --- Methods --- //
 
@@ -9,8 +12,8 @@ const save = ( basePath, filePath, content ) => {
   const absolutePath  = utility.absPath( basePath, filePath )
   const directoryPath = absolutePath.split( /\/|\\/ ).slice( 0, -1 ).join( '/' )
 
-  if( utility.mkdir( directoryPath ) === true ){
-    utility.write( absolutePath, content )
+  if( file.mkdir( directoryPath ) === true ){
+    file.write( absolutePath, content )
     return true
   }
 
@@ -22,7 +25,7 @@ const load = ( basePath, filePath ) => {
     return null
 
   const absolutePath = utility.absPath( basePath, filePath )
-  const response = utility.read( absolutePath )
+  const response = file.read( absolutePath )
 
   if( response.error === undefined )
     return response.result

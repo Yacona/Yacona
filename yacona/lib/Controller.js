@@ -1,7 +1,10 @@
 // --- Modules --- //
 
 const url     = require( 'url' )
-const utility = require( './utility' )
+
+const moduleLoader = require( './moduleLoader' )
+
+const utility = moduleLoader( 'utility' )
 
 // --- Store : Declare private member and method --- //
 
