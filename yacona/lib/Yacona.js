@@ -45,6 +45,7 @@ class Yacona {
       clientModules  : {},
       apps           : {},
       socketFunctions: {},
+      listeners      : {},
       gui            : new GUI( this.prefix ),
       storage        : new Storage( {
         prefix   : this.prefix,
@@ -299,6 +300,35 @@ class Yacona {
   // appId => Object ( Instance of BrowserWindow )
   destroyWindow( appId ){
     return store.get( this ).gui.destroyWindow( appId )
+  }
+
+  // --- On, Emit --- //
+
+  addListener( name, callback ){
+    const self = store.get( this )
+    if( self.listeners[name] === undefined ){
+      self.listeners[name] = callback
+      return true
+    }
+    return false
+  }
+
+  // args : Array
+  callListener( name, ...args ){
+    const self = store.get( this )
+    if( self.listeners[name] !== undefined ){
+      return utility.status( undefined, self.listeners[name].apply( self.listeners[name], args ) )
+    }
+    return utility.status( false, undefined )
+  }
+
+  removeListener( name ){
+    const self = store.get( this )
+    if( self.listeners[name] !== undefined ){
+      delete self.listeners[name]
+      return true
+    }
+    return false
   }
 
   // --- Static --- //

@@ -47,7 +47,8 @@ class App {
       // This params using on close event
       routes    : { get: [], post: [], put: [], delete: [] },
       windows   : [],
-      sockets   : []
+      sockets   : [],
+      listeners : []
     } )
   }
 
@@ -120,6 +121,12 @@ class App {
 
       self.instance   = undefined
       self.controller = undefined
+
+      // Event
+
+      self.listeners.forEach( listen => this.removeListener( listen ) )
+
+      self.listeners = []
 
 			return true
 		}
@@ -267,6 +274,32 @@ class App {
 
   destroyWindow( window ){
     return store.get( this ).yacona.destroyWindow( window )
+  }
+
+  // --- Event --- //
+
+  addListener( name, callback ){
+    const self = store.get( this )
+    self.listeners.push( name )
+    debug( this.getName() + ':' + this.getId(), 'Add listener ' + name )
+    return self.yacona.addListener( this.getName() + '/' + name, callback )
+  }
+
+  callListener( name, ...args ){
+    const self = store.get( this )
+    return self.yacona.callListener.apply( self.yacona, [name].concat( args ) )
+  }
+
+  removeListener( name ){
+    const self = store.get( this )
+
+    let i
+    if( ( i = self.listeners.indexOf( name ) ) !== -1 ){
+      self.listeners.splice( i, 1 )
+      debug( this.getName() + ':' + this.getId(), 'Remove listener ' + name )
+    }
+
+    return self.yacona.removeListener( this.getName() + '/' + name )
   }
 
 }
