@@ -14,4 +14,6 @@ module.exports.launch = controller => {
     console.log( 'Windows get' )
     controller.destroyWindow( window )
   } )
+
+  console.log( 'app', controller.callListener( 'app/Hello', 'a', 'b' ) )
 }

@@ -139,6 +139,23 @@ class Controller {
     return self.app.removeSocket( name )
   }
 
+  // --- Event --- //
+
+  addListener( name, callback ){
+    const self = store.get( this )
+    return self.app.addListener( name, callback )
+  }
+
+  callListener( name, ...args ){
+    const self = store.get( this )
+    return self.app.callListener.apply( self.app, [name].concat( args ) )
+  }
+
+  removeListener( name ){
+    const self = store.get( this )
+    return self.app.removeListener( name )
+  }
+
 }
 
 module.exports.Controller = Controller
