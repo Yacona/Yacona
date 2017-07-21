@@ -38,7 +38,7 @@ class Yacona {
 
     store.set( this, {
       server         : server,
-      chdir          : options.chdir || process.env.PWD,
+      chdir          : options.chdir || process.cwd(),
       prefix         : options.prefix || null,
       io             : io,
       modules        : {},

@@ -45,13 +45,13 @@ class Storage {
     options = options || {}
 
     options.prefix    = options.prefix || './'
-    options.directory = options.directory || process.env.PWD
+    options.directory = options.directory || process.cwd()
 
     // Target the local directory
     options.local     = options.local !== undefined
 
-    if( options.directory[0] !== '/' )
-      options.directory = utility.absPath( process.env.PWD, options.directory )
+    if( options.directory[0].match( /\/|\\/ ) !== null )
+      options.directory = utility.absPath( process.cwd(), options.directory )
 
     const electron = ( process.title.split( /\\|\// ).pop().toLowerCase() === 'electron' && options.local === false )
                        ? require( 'electron' )

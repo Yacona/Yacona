@@ -23,10 +23,9 @@ class GUI {
   constructor( prefix ){
     prefix = prefix || null
 
-    const electron = ( process.title.split( /\\|\// ).pop().toLowerCase() === 'electron' )
+    const electron = ( process.title.split( /\\|\// ).pop().toLowerCase() === 'electron' || ( ( require( 'os' ).platform() === 'win32' && process.title.indexOf( 'electron' ) !== -1 ) ) )
                        ? require( 'electron' )
                        : null
-
 
     const app = electron !== null ? electron.app : null
 

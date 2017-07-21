@@ -86,6 +86,8 @@ class App {
 		self.instance   = require( utility.absPath( self.chdir, self.package.main ) )
     self.controller = new Controller( this )
 
+    debug( this.getName() + ':' + this.getId(), 'Launched' )
+
 		if( self.instance !== null && self.instance.launch ){
 			self.instance.launch( self.controller )
     }
