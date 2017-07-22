@@ -20,6 +20,14 @@ class Controller {
     } )
   }
 
+  getApp(){
+    return store.get( this ).app
+  }
+
+  getA(){
+    return store.get( this ).app.removeSocketIO()
+  }
+
   getUrl(){
     return store.get( this ).app.getUrl()
   }
@@ -129,14 +137,8 @@ class Controller {
 
   // --- Socket Functions --- //
 
-  addSocket( name, callback ){
-    const self = store.get( this )
-    return self.app.addSocket( name, callback )
-  }
-
-  removeSocket( name ){
-    const self = store.get( this )
-    return self.app.removeSocket( name )
+  getSocketIO( func ){
+    return store.get( this ).app.getSocketIO( func )
   }
 
   // --- Event --- //

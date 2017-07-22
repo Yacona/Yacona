@@ -1,19 +1,20 @@
 module.exports.launch = controller => {
   controller.addStaticRoute( './public' )
 
-  controller.addSocket( 'message', ( socket, value ) => {
-    console.log( 'Message : ' + value.value )
-    socket.emit( 'message', { message: 'reply123123' } )
+  controller.getSocketIO( ( socket ) => {
+    socket.on( 'message', value => {
+      console.log( value )
+      socket.disconnect()
+    } )
   } )
 
   controller.createWindow().then( window => {
     window.openDevTools()
   } )
 
-  controller.createWindow().then( window => {
-    console.log( 'Windows get' )
-    controller.destroyWindow( window )
-  } )
+  setTimeout( function(){
+    controller.getA()
+  }, 3000 )
 
-  console.log( 'app', controller.callListener( 'app/Hello', 'a', 'b' ) )
+  // console.log( 'app', controller.callListener( 'app/Hello', 'a', 'b' ) )
 }

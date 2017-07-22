@@ -48,8 +48,14 @@ class App {
       routes    : { get: [], post: [], put: [], delete: [] },
       windows   : [],
       sockets   : [],
-      listeners : []
+      listeners : [],
+
+      env       : {}
     } )
+  }
+
+  getYacona(){
+    return store.get( this ).yacona
   }
 
   getName(){
@@ -110,7 +116,7 @@ class App {
 
       // Socket.io
 
-      self.sockets.forEach( socket => this.removeSocket( socket ) )
+      this.removeSocketIO()
 
       // Electron
       // GUI Class
@@ -140,19 +146,20 @@ class App {
 
   // --- Socket --- //
 
-  addSocket( name, callback ){
-    store.get( this ).sockets.push( name )
-    return store.get( this ).yacona.addSocket( this.getName() + '/' + name, callback )
+  getSocketIO( func ){
+    store.get( this ).env.io = store.get( this ).yacona.getSocketIO().of( '/' + this.getName() + '/' )
+    return store.get( this ).env.io.on( 'connection', func )
   }
 
-  removeSocket( name ){
-    const self = store.get( this )
-
-    let index = self.sockets.indexOf( name )
-    if( index !== -1 )
-      self.sockets.splice( index, 1 )
-
-    return store.get( this ).yacona.removeSocket( this.getName() + '/' + name )
+  removeSocketIO(){
+    const io = store.get( this ).yacona.getSocketIO()
+    const MyNamespace = io.of( '/' + this.getName() + '/' )
+    const connectedNameSpaceSockets = Object.keys( MyNamespace.connected )
+    connectedNameSpaceSockets.forEach( socketId => {
+      MyNamespace.connected[socketId].disconnect()
+    } )
+    MyNamespace.removeAllListeners()
+    delete io.nsps['/' + this.getName() + '/']
   }
 
   // --- Documents --- //

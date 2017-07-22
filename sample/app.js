@@ -1,25 +1,21 @@
 const Yacona = require( '../yacona' ).Yacona
 
-const yacona = new Yacona( {
-  port: 3000,
-  prefix: 'sample',
+const server1 = new Yacona( {
+  port: 8000,
+  prefix: 'server1',
+  chdir: __dirname
+} )
+
+const app1 = server1.attachApp( './app' )
+
+app1.launch()
+
+const server2 = new Yacona( {
+  port  : 3000,
+  prefix: 'server2',
   chdir : __dirname
 } )
 
-console.log( Yacona.loadModule( 'utility' ) )
+const app2 = server2.attachApp( './app2' )
 
-const app  = yacona.attachApp( './app' )
-const app2 = yacona.attachApp( './app2' )
-
-app.launch()
 app2.launch()
-
-
-console.log( yacona.getApps() )
-
-setTimeout( function(){
-  yacona.detachApp( app )
-  setTimeout( () => {
-    console.log( yacona.getApps() )
-  } )
-}, 3000 )

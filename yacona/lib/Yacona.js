@@ -57,23 +57,6 @@ class Yacona {
     debug( 'Prefix : ' + self.prefix )
     debug( 'Working directory : ' + self.chdir )
     debug( 'Port : ' + self.server.getPort() )
-
-    // --- Socket IO --- //
-
-    io.use( require( 'socketio-wildcard' )() )
-
-    // Socket wildcard
-    io.sockets.on( 'connection', socket => {
-      socket.on( '*', value => {
-        let appName = socket.handshake.headers.referer
-                        .replace( /http:\/\//, '' )
-                        .replace( RegExp( socket.handshake.headers.host ), '' )
-                        .split( '/' )[1]
-        let fn
-        if( fn = self.socketFunctions[appName + '/' + value.data[0]] )
-          fn( socket, value.data[1] )
-      } )
-    } )
   }
 
   getPrefix(){
@@ -86,6 +69,10 @@ class Yacona {
 
   getApps(){
     return store.get( this ).apps
+  }
+
+  getSocketIO(){
+    return store.get( this ).io
   }
 
   // --- Support Modules --- //
