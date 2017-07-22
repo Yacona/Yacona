@@ -71,10 +71,6 @@ class Yacona {
     return store.get( this ).apps
   }
 
-  getSocketIO(){
-    return store.get( this ).io
-  }
-
   // --- Support Modules --- //
 
   addModule( name, place ){
@@ -136,24 +132,39 @@ class Yacona {
 
   // --- Socket --- //
 
-  addSocket( name, callback ){
+  addWebSocket( name, callback ){
+    console.log( name, callback )
     if( name === undefined || callback === undefined )
       return false
 
     const self = store.get( this )
 
-    debug( 'Add Socket : ' + name )
+    self.io.of( name ).on( 'connection', callback )
+
+    debug( 'Add socket namespace : ' + name )
     self.socketFunctions[name] = callback
+
     return true
   }
 
-  removeSocket( name ){
+  removeWebSocket( name ){
     if( name === undefined )
       return false
 
     const self = store.get( this )
 
-    debug( 'Remove Socket : ' + name )
+    const io = self.io
+
+    const namespace = self.io.of( name )
+    const connected = Object.keys( namespace.connected )
+    connected.forEach( socketId => {
+      namespace.connected[socketId].disconnect()
+    } )
+
+    namespace.removeAllListeners()
+    delete self.io.nsps[name]
+
+    debug( 'Remove socket namespace : ' + name )
     delete self.socketFunctions[name]
     return true
   }

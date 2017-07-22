@@ -116,7 +116,7 @@ class App {
 
       // Socket.io
 
-      this.removeSocketIO()
+      this.removeWebSocket()
 
       // Electron
       // GUI Class
@@ -146,20 +146,14 @@ class App {
 
   // --- Socket --- //
 
-  getSocketIO( func ){
-    store.get( this ).env.io = store.get( this ).yacona.getSocketIO().of( '/' + this.getName() + '/' )
-    return store.get( this ).env.io.on( 'connection', func )
+  addWebSocket( func ){
+    const self = store.get( this )
+    return self.yacona.addWebSocket( '/' + this.getName() + '/', func )
   }
 
-  removeSocketIO(){
-    const io = store.get( this ).yacona.getSocketIO()
-    const MyNamespace = io.of( '/' + this.getName() + '/' )
-    const connectedNameSpaceSockets = Object.keys( MyNamespace.connected )
-    connectedNameSpaceSockets.forEach( socketId => {
-      MyNamespace.connected[socketId].disconnect()
-    } )
-    MyNamespace.removeAllListeners()
-    delete io.nsps['/' + this.getName() + '/']
+  removeWebSocket(){
+    const self = store.get( this )
+    return self.yacona.removeWebSocket( '/' + this.getName() + '/' )
   }
 
   // --- Documents --- //

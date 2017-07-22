@@ -24,10 +24,6 @@ class Controller {
     return store.get( this ).app
   }
 
-  getA(){
-    return store.get( this ).app.removeSocketIO()
-  }
-
   getUrl(){
     return store.get( this ).app.getUrl()
   }
@@ -137,8 +133,12 @@ class Controller {
 
   // --- Socket Functions --- //
 
-  getSocketIO( func ){
-    return store.get( this ).app.getSocketIO( func )
+  addWebSocket( func ){
+    return store.get( this ).app.addWebSocket( func )
+  }
+
+  removeWebSocket(){
+    return store.get( this ).app.removeWebSocket()
   }
 
   // --- Event --- //
