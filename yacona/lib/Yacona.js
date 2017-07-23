@@ -46,6 +46,7 @@ class Yacona {
       apps           : {},
       socketFunctions: {},
       listeners      : {},
+      connected      : {},
       gui            : new GUI( this.prefix ),
       storage        : new Storage( {
         prefix   : this.prefix,
@@ -286,6 +287,21 @@ class Yacona {
     delete self.apps[appName]
 
     return true
+  }
+
+  // --- Other Instance --- //
+
+  connect( yacona ){
+    console.log( 'Adapt' )
+    if( yacona === undefined || yacona instanceof Yacona === false )
+      return false
+
+    console.log( 'ok' )
+  }
+
+  disconnect( yacona ){
+    if( yacona === undefined || yacona instanceof Yacona === false )
+      return false
   }
 
   // --- Electron --- //

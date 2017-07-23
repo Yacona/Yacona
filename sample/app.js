@@ -19,3 +19,5 @@ const server2 = new Yacona( {
 const app2 = server2.attachApp( './app2' )
 
 app2.launch()
+
+server1.connect( server2 )
