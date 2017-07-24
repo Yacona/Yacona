@@ -292,16 +292,39 @@ class Yacona {
   // --- Other Instance --- //
 
   connect( yacona ){
-    console.log( 'Adapt' )
     if( yacona === undefined || yacona instanceof Yacona === false )
       return false
 
-    console.log( 'ok' )
+    const self = store.get( this )
+    const name = yacona.getPrefix()
+
+    if( self.connected[name] !== undefined )
+      return false
+
+    self.connected[name] = yacona
+    yacona.connect( this )
+
+    return true
+  }
+
+  c(){
+    return store.get( this ).connected
   }
 
   disconnect( yacona ){
     if( yacona === undefined || yacona instanceof Yacona === false )
       return false
+
+    const self = store.get( this )
+    const name = yacona.getPrefix()
+
+    if( self.connected[name] === undefined )
+      return false
+
+    delete self.connected[name]
+    yacona.disconnect( this )
+
+    return true
   }
 
   // --- Electron --- //
