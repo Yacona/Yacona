@@ -59,6 +59,9 @@ class Yacona {
     debug( 'Prefix : ' + self.prefix )
     debug( 'Working directory : ' + self.chdir )
     debug( 'Port : ' + self.server.getPort() )
+
+    // /modules/websocket
+    this.addClientModule( 'websocket', utility.absPath( __dirname, 'support/client/websocket.js' ) )
   }
 
   getPrefix(){
@@ -109,6 +112,8 @@ class Yacona {
   addClientModule( name, place ){
     if( name === undefined || place === undefined )
       return false
+
+    console.log( 'Client modi;e' )
 
     const self = store.get( this )
 
