@@ -22,10 +22,17 @@ app2.launch()
 
 server1.connect( server2 )
 
-console.log( 'server1', server1.c() )
-console.log( 'server2', server2.c() )
+server1.on( 'reply', ( target, data ) => {
+  console.log( 'reply', data )
+} )
 
-server1.disconnect( server2 )
+server2.on( 'message', ( target, data ) => {
+  server2.broadcast( 'reply', {
+    message: 'Hello ' + data.name + ' !'
+  } )
+} )
 
-console.log( 'server1 disconnected', server1.c() )
-console.log( 'server2 disconnected', server2.c() )
+server1.emit( 'server2', 'message', {
+  name: 'Calmery',
+  message: 'Hello !'
+} )

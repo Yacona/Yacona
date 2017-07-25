@@ -47,6 +47,7 @@ class Yacona {
       socketFunctions: {},
       listeners      : {},
       connected      : {},
+      on             : {}, // connected
       gui            : new GUI( this.prefix ),
       storage        : new Storage( {
         prefix   : this.prefix,
@@ -291,6 +292,10 @@ class Yacona {
 
   // --- Other Instance --- //
 
+  c(){
+    return store.get( this ).connected
+  }
+
   connect( yacona ){
     if( yacona === undefined || yacona instanceof Yacona === false )
       return false
@@ -304,11 +309,9 @@ class Yacona {
     self.connected[name] = yacona
     yacona.connect( this )
 
-    return true
-  }
+    debug( 'Connected to ' + yacona.getPrefix() )
 
-  c(){
-    return store.get( this ).connected
+    return true
   }
 
   disconnect( yacona ){
@@ -323,6 +326,70 @@ class Yacona {
 
     delete self.connected[name]
     yacona.disconnect( this )
+
+    debug( 'Disconnected to ' + yacona.getPrefix() )
+
+    return true
+  }
+
+  broadcast( name, data ){
+    if( name === undefined )
+      return false
+
+    const self = store.get( this )
+
+    for( let target in self.connected ){
+      this.emit( target, name, data )
+    }
+
+    return true
+  }
+
+  emit( target, name, data ){
+    if( typeof target !== 'string' )
+      return false
+
+    const self = store.get( this )
+
+    if( self.connected[target] === undefined )
+      return false
+
+    self.connected[target].on( {
+      signature: this.getPrefix(),
+      name     : name,
+      data     : data
+    } )
+
+    return true
+  }
+
+  // on( name, callback )
+  // on( data )
+  on( name, callback ){
+    const self = store.get( this )
+
+    if( typeof name === 'string' ){
+      self.on[name] = callback
+      return true
+    }
+
+    if( callback !== undefined || typeof name !== 'object' ){
+      return false
+    }
+
+    let message = name
+
+    if( message.signature === undefined || message.name === undefined ){
+      return false
+    }
+
+    let fn = self.on[message.name]
+
+    if( fn === undefined ){
+      return false
+    }
+
+    fn( message.signature, message.data )
 
     return true
   }
