@@ -113,8 +113,6 @@ class Yacona {
     if( name === undefined || place === undefined )
       return false
 
-    console.log( 'Client modi;e' )
-
     const self = store.get( this )
 
     if( place[0] !== '/' )
