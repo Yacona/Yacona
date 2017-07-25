@@ -292,10 +292,6 @@ class Yacona {
 
   // --- Other Instance --- //
 
-  c(){
-    return store.get( this ).connected
-  }
-
   connect( yacona ){
     if( yacona === undefined || yacona instanceof Yacona === false )
       return false
