@@ -1,6 +1,6 @@
 {
 	"name": "yacona",
-	"version": "17.7.30",
+	"version": "17.7.31",
 	"description": "Yet another controller/conductor of Node.js application",
 	"repository": {
 		"url": "https://github.com/Yacona/yacona.git",
