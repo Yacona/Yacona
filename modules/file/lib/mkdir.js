@@ -4,7 +4,7 @@ const fs   = require( 'fs' )
 const utility = require( '../../utility' )
 
 const mkdir = path => {
-  if( path[0] !== '/' )
+  if( utility.isAbsPath( path ) === false )
     return false
 
   let directories = path.split( /\/|\\/ )
