@@ -42,6 +42,8 @@ const store = new WeakMap()
 class Storage {
 
   constructor( options ){
+    console.log( options )
+
     options = options || {}
 
     options.prefix    = options.prefix || './'

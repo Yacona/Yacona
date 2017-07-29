@@ -8,6 +8,7 @@ const Server  = require( './class/Server' ).Server
 const App     = require( './class/App' ).App
 const GUI     = require( './class/GUI' ).GUI
 const Storage = require( './class/Storage' ).Storage
+const Manager = require( './class/Manager' ).Manager
 
 // --- Functions --- //
 
@@ -50,8 +51,12 @@ class Yacona {
       on             : {}, // connected
       gui            : new GUI( this.prefix ),
       storage        : new Storage( {
-        prefix   : this.prefix,
-        directory: this.chdir
+        prefix   : options.prefix || null,
+        directory: options.chdir || process.cwd()
+      } ),
+      appManager     : new Manager( {
+        prefix   : options.prefix || null,
+        directory: options.chdir || process.cwd()
       } )
     } )
 
@@ -432,6 +437,27 @@ class Yacona {
       return true
     }
     return false
+  }
+
+  // --- App Manager --- //
+
+  addApp( url ){
+    return store.get( this ).appManager.add( url )
+  }
+
+  removeApp( name ){
+    return store.get( this ).appManager.remove( name )
+  }
+
+  runApp( name ){
+    let p = store.get( this ).appManager.getPath( name )
+    if( p === null )
+      return false
+
+    const app = this.attachApp( p )
+    app.launch()
+
+    return app
   }
 
   // --- Static --- //

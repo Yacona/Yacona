@@ -1,6 +1,7 @@
 const http = require( 'http' )
 const fs   = require( 'fs' )
 const url  = require( 'url' )
+const path = require( 'path' )
 
 const download = ( from, to ) => {
   return new Promise( ( resolve, reject ) => {
@@ -10,12 +11,15 @@ const download = ( from, to ) => {
       if( response.statusCode < 200 || 299 < response.statusCode )
         reject( response )
       else {
-        let output = fs.createWriteStream( path.resolve( to, path.basename( filename ) ) )
+        let p      = path.resolve( to, path.basename( filename ) )
+        let output = fs.createWriteStream( p )
         output.on( 'error', reject )
         response.pipe( output )
+        output.on( 'finish', () => {
+          resolve( p )
+        } )
         response.on( 'end', e => {
           output.close()
-          resolve( path.basename( filename ) )
         } )
       }
     } ).on( 'error', reject )
