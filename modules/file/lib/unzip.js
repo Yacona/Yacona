@@ -49,7 +49,9 @@ const extract = ( from, to ) => {
       resolve( unzip( from, to ) )
       return
     }
-    reject()
+    reject( {
+      statusText: 'Only zip'
+    } )
   } )
 }
 
