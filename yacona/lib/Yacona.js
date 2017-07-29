@@ -37,10 +37,13 @@ class Yacona {
 
     // --- Store --- //
 
+    const chdir  = options.chdir || process.cwd()
+    const prefix = options.prefix || null
+
     store.set( this, {
       server         : server,
-      chdir          : options.chdir || process.cwd(),
-      prefix         : options.prefix || null,
+      chdir          : chdir,
+      prefix         : prefix,
       io             : io,
       modules        : {},
       clientModules  : {},
@@ -49,14 +52,14 @@ class Yacona {
       listeners      : {},
       connected      : {},
       on             : {}, // connected
-      gui            : new GUI( this.prefix ),
+      gui            : new GUI( prefix ),
       storage        : new Storage( {
-        prefix   : options.prefix || null,
-        directory: options.chdir || process.cwd()
+        prefix   : prefix,
+        directory: chdir
       } ),
       appManager     : new Manager( {
-        prefix   : options.prefix || null,
-        directory: options.chdir || process.cwd()
+        prefix   : prefix,
+        directory: chdir
       } )
     } )
 

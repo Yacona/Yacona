@@ -45,8 +45,6 @@ class Manager {
                        ? require( 'electron' )
                        : null
 
-    console.log( options )
-
     const directory = utility.absPath(
       ( ( electron !== null )
         ? electron.app.getPath( 'documents' )
