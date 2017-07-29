@@ -1,18 +1,18 @@
 {
 	"name": "yacona",
-	"version": "17.7.29",
+	"version": "17.7.30",
 	"description": "Yet another controller/conductor of Node.js application",
 	"repository": {
 		"url": "https://github.com/Yacona/yacona.git",
 		"type": "git"
 	},
-	"author": "calmery <contact@calmery.me>",
+	"main": "./lib/Yacona",
 	"license": "MIT",
-  "dependencies": {
-    "electron": "^1.6.11",
-    "express": "^4.15.3",
-    "socket.io": "^2.0.3",
-    "socketio-wildcard": "^2.0.0",
-    "unzip": "^0.1.11"
-  }
+	"dependencies": {
+		"electron": "^1.6.11",
+		"express": "^4.15.3",
+		"socket.io": "^2.0.3",
+		"socketio-wildcard": "^2.0.0",
+		"unzip": "^0.1.11"
+	}
 }
