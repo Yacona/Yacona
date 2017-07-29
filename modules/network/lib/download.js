@@ -1,26 +1,32 @@
-const http = require( 'http' )
-const fs   = require( 'fs' )
-const url  = require( 'url' )
-const path = require( 'path' )
+const url   = require( 'url' )
+const http  = require( 'http' )
+const https = require( 'https' )
+const fs    = require( 'fs' )
+const path  = require( 'path' )
+
+// http.get on error => Reject
+// response.statusCode < 200 || 299 < response.statusCode => Reject
+// Write Stream on error => Reject
+
+// Ok => Resolve( filePath )
 
 const download = ( from, to ) => {
   return new Promise( ( resolve, reject ) => {
-    let filename = url.parse( from ).pathname
+    const parsed   = url.parse( from )
+    const fileName = path.basename( parsed.pathname )
 
-    http.get( from, response => {
-      if( response.statusCode < 200 || 299 < response.statusCode )
+    const h = parsed.protocol === 'https:' ? https : http
+
+    h.get( from, response => {
+      if( response.statusCode < 200 || 299 < response.statusCode ){
         reject( response )
-      else {
-        let p      = path.resolve( to, path.basename( filename ) )
-        let output = fs.createWriteStream( p )
+      } else {
+        let filePath = path.resolve( to, fileName )
+        let output   = fs.createWriteStream( filePath )
         output.on( 'error', reject )
+        output.on( 'finish', () => resolve( filePath ) )
         response.pipe( output )
-        output.on( 'finish', () => {
-          resolve( p )
-        } )
-        response.on( 'end', e => {
-          output.close()
-        } )
+        response.on( 'end', () => output.close() )
       }
     } ).on( 'error', reject )
   } )
