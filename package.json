@@ -1,5 +1,13 @@
 {
-  "main": "./lib/Yacona",
+	"name": "yacona",
+	"version": "17.7.29",
+	"description": "Yet another controller/conductor of Node.js application",
+	"repository": {
+		"url": "https://github.com/Yacona/yacona.git",
+		"type": "git"
+	},
+	"author": "calmery <contact@calmery.me>",
+	"license": "MIT",
   "dependencies": {
     "electron": "^1.6.11",
     "express": "^4.15.3",
