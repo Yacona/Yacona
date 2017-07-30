@@ -80,3 +80,6 @@ sample/public/index.html
 </script>
 
 ```
+```bash
+$ electron .
+```
