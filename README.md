@@ -37,7 +37,7 @@ package.json
 {
   "main": "server",
   "dependencies": {
-    "yacona": "^17.7.30"
+    "yacona": "^17.7.31"
   }
 }
 ```
