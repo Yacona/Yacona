@@ -83,3 +83,6 @@ sample/public/index.html
 ```bash
 $ electron .
 ```
+## LICENSE
+
+This software is released under the MIT License, see LICENSE.
